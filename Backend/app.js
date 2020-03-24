@@ -16,10 +16,20 @@ app.use(bodyParser.json());//convertimos toda peticion a json (objeto de js)
 //Añadir prefijo a rutas
 
 //Ruta o metodo de prueba para el API REST
-app.get('/probando', function(req, res){
-    console.log("Hola Mundo");
+app.post('/datos-curso', (req, res) => {
+    //console.log("Hola Mundo");
+    //para recibir pruebas desde el postman
+    //vamos a recoger el parametro hola (.hola)
+    var hola = req.body.hola;
+    
+    return res.status(200).send({
+        curso: 'Master en Frameworks JS',
+        autor: 'Victor Robles',
+        url: 'victorroblesweb.es',
+        hola
+    });
 });//la funcion de flecha es lo mismo que poner function()
-//app.get('/probando', () => {})
+//app.get('/probando', function(req, res) => {})
 //req->lo que recibo
 //res->lo que devuelvo
 
