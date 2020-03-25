@@ -21,12 +21,14 @@ app.post('/datos-curso', (req, res) => {
     //para recibir pruebas desde el postman
     //vamos a recoger el parametro hola (.hola)
     var hola = req.body.hola;
+    var testkey = req.body.testkey;
     
     return res.status(200).send({
         curso: 'Master en Frameworks JS',
         autor: 'Victor Robles',
         url: 'victorroblesweb.es',
-        hola
+        hola,
+        testkey
     });
 });//la funcion de flecha es lo mismo que poner function()
 //app.get('/probando', function(req, res) => {})
