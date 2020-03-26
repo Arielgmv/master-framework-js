@@ -6,6 +6,7 @@ var bodyParser = require('body-parser'); //cargamos body-parser para convertir a
 //Ejecutar express (para poder trabajar con http)
 var app = express();//express sera la aplicacion en si
 //Cargar ficheros rutas
+var article_routes = require('./routes/article');
 
 //Middlewares (siempre se ejecuta antes de cargar una ruta o url)
 app.use(bodyParser.urlencoded({extended:false}));//basicamente cargar el body-parser, utilizarlo
@@ -13,10 +14,12 @@ app.use(bodyParser.json());//convertimos toda peticion a json (objeto de js)
 
 //CORS (para permitir peticiones del frontend)
 
-//Añadir prefijo a rutas
+//Añadir prefijo a rutas / Cargar rutas
+//app.use('/',article_routes);//cargando rutas ya creadas dentro de express
+app.use('/api',article_routes);
 
 //Ruta o metodo de prueba para el API REST
-app.post('/datos-curso', (req, res) => {
+/*app.post('/datos-curso', (req, res) => {
     //console.log("Hola Mundo");
     //para recibir pruebas desde el postman
     //vamos a recoger el parametro hola (.hola)
@@ -30,7 +33,7 @@ app.post('/datos-curso', (req, res) => {
         hola,
         testkey
     });
-});//la funcion de flecha es lo mismo que poner function()
+});*///la funcion de flecha es lo mismo que poner function()
 //app.get('/probando', function(req, res) => {})
 //req->lo que recibo
 //res->lo que devuelvo
