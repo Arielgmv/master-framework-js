@@ -12,6 +12,7 @@ router.get('/test-de-controlador', ArticleController.test);//creo una ruta por g
 //Rutas útiles
 router.post('/save', ArticleController.save);
 router.get('/articles/:last?', ArticleController.getArticles);//? parámetro opcional por la URL
+router.get('/article/:id', ArticleController.getArticle);//sin ?, obligatorio el campo
 
 //exporto el modulo para poder usarlo
 module.exports = router;
