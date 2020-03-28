@@ -10,9 +10,14 @@ router.post('/datos-curso', ArticleController.datosCurso);
 router.get('/test-de-controlador', ArticleController.test);//creo una ruta por get
 
 //Rutas útiles
+//* GET para sacar datos de la BBDD
+//* POST para guardar o enviar datos a la BBDD o al backend
+//* PUT para actualizar
+//* DELETE para borrar
 router.post('/save', ArticleController.save);
 router.get('/articles/:last?', ArticleController.getArticles);//? parámetro opcional por la URL
 router.get('/article/:id', ArticleController.getArticle);//sin ?, obligatorio el campo
+router.put('/article/:id', ArticleController.update);
 
 //exporto el modulo para poder usarlo
 module.exports = router;

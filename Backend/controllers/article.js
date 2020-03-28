@@ -130,6 +130,55 @@ var controller = {
                 article
             });
         });
+    },
+
+    update: (req, res) => {
+        
+        //Recoger el id del articulo por la url
+        var articleId = req.params.id;
+
+        //Recoger los datos que llegan por PUT
+        var params = req.body;
+
+        //Validar datos
+        try {
+            var validate_title = !validator.isEmpty(params.title);//cuando no este vacio params.title, validate_title sera true
+            var validate_content = !validator.isEmpty(params.content);
+        } catch (err) {
+            return res.status(200).send({
+                status: 'error',
+                message: 'Faltan datos por enviar'
+            });
+        }
+        if (validate_title && validate_content) {
+            //Find and update
+            Article.findOneAndUpdate({_id: article}, params, {new:true}, (err, articleUpdated) => {
+                //pasamos 3 parametros y la funcion de callback, _id, para que busque por id, params-lo uqe me ha llegado
+                //new:true, le pasamos un json con las opciones - me va  a devolver el objeto que estoy actulizando - actualizado
+                if (err) {
+                    return res.status(500).send({
+                        status: 'error',
+                        message: 'Error al actualizar'
+                    });
+                }
+                if (!articleUpdated) {
+                    return res.status(404).send({
+                        status: 'error',
+                        message: 'No existe el articulo'
+                    });
+                }
+                return res.status(200).send({
+                    status: 'success',
+                    article: articleUpdated
+                });
+            });
+        }else{
+            //Devolver respuesta
+            return res.status(200).send({
+                status: 'error',
+                message: 'La validacion no es correcta'
+            });
+        }
     }
 
 };//end controller 
