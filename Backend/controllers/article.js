@@ -152,9 +152,9 @@ var controller = {
         }
         if (validate_title && validate_content) {
             //Find and update
-            Article.findOneAndUpdate({_id: article}, params, {new:true}, (err, articleUpdated) => {
-                //pasamos 3 parametros y la funcion de callback, _id, para que busque por id, params-lo uqe me ha llegado
-                //new:true, le pasamos un json con las opciones - me va  a devolver el objeto que estoy actulizando - actualizado
+            Article.findOneAndUpdate({_id: articleId}, params, {new:true}, (err, articleUpdated) => {
+                //pasamos 3 parametros y la funcion de callback, _id, para que busque por id, params-lo que me ha llegado
+                //new:true, le pasamos un json con las opciones - me va  a devolver el objeto que estoy actualizando - actualizado
                 if (err) {
                     return res.status(500).send({
                         status: 'error',
@@ -179,8 +179,33 @@ var controller = {
                 message: 'La validacion no es correcta'
             });
         }
-    }
+    },
 
+    delete: (req, res) => {
+        //Recoger el id de la url
+        var articleId = req.params.id;
+
+        //Find and delete
+        Article.findByIdAndDelete({_id: articleId}, (err, articleRemoved) => {
+            if(err){
+                return res.status(500).send({
+                    status: 'error',
+                    message: 'Error al borrar'
+                });
+            }
+            if(!articleRemoved){
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'No se ha borrado el artículo, posiblemente no exista'
+                });
+            }
+
+            return res.status(200).send({
+                status: 'success',
+                article: articleRemoved
+            });
+        });       
+    }
 };//end controller 
 
 //utilizamos el module export para poder utilizar este objeto fuera de este archivo y 

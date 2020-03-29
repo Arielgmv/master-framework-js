@@ -18,6 +18,7 @@ router.post('/save', ArticleController.save);
 router.get('/articles/:last?', ArticleController.getArticles);//? parámetro opcional por la URL
 router.get('/article/:id', ArticleController.getArticle);//sin ?, obligatorio el campo
 router.put('/article/:id', ArticleController.update);
+router.delete('/article/:id', ArticleController.delete);
 
 //exporto el modulo para poder usarlo
 module.exports = router;
