@@ -205,6 +205,27 @@ var controller = {
                 article: articleRemoved
             });
         });       
+    },
+
+    upload: (req, res) => {
+        //Configurar el modulo connect multiparty router/article.js (hecho en el modelo)
+
+        //Recoger el fichero de la peticion
+        var file_name = 'Imagen no subida';
+
+        console.log(req.files);
+
+        //Conseguir nombre y la extension del archivo
+
+        //Comprobar la extension, solo imagenes, si no es valido borrar el fichero
+
+        //Si todo es valido
+
+        //Buscar el articulo, asignarle el nombre de la imagen y actualizarlo
+        
+        return res.status(404).send({
+            fichero: req.files
+        });
     }
 };//end controller 
 
