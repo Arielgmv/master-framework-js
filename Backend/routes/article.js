@@ -7,7 +7,7 @@ var router = express.Router();//llamamos al router de express
 
 var multipart = require('connect-multiparty');//cargamos el modulo de connect-multiparty
 var md_upload = multipart({uploadDir: './upload/articles'});//connect-multiparty nos da un middleware, una funcionalidad que se ejecuta antes del
-//metodo en el controlador, guarde los archivos en la carpeta upload/articles
+//metodo en el controlador, guardo los archivos en la carpeta upload/articles
 
 //Rutas de pruebas
 router.post('/datos-curso', ArticleController.datosCurso);

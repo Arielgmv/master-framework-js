@@ -213,18 +213,40 @@ var controller = {
         //Recoger el fichero de la peticion
         var file_name = 'Imagen no subida';
 
-        console.log(req.files);
+        if (!req.files) {
+            return res.status(404).send({
+                status: 'error',
+                message: file_name
+            });
+        }
 
         //Conseguir nombre y la extension del archivo
+        var file_path = req.files.file0.path;//file0-> nombre de lo que vamos a enviar, esto guarda el "path" (ver en postman)
+        var file_split = file_path.split('/');//con esto separamos el "path" y nos quedaremos con el nombre de la imagen (*.png). indice 2
+
+        //Advetencia en * Windows
+        //var file_split = file_path.split('\\');
+
+        //nombre del archivo
+        var file_name = file_split[2];
+
+        //extensión del fichero
+        var extension_split = file_name.split('\.');//vamos a separar con el punto ("PMjBcSnoWBRefeN5_6lC9Ah8.png")
+        var file_ext = extension_split[1];//con esto conseguimos la extensión .png
 
         //Comprobar la extension, solo imagenes, si no es valido borrar el fichero
+        if (file_ext != 'png' && file_ext != 'jpg' && file_ext != 'jpeg' && file_ext != 'gif') {
+            //borrar el archivo subido
+        }else{
+            //Si todo es valido
 
-        //Si todo es valido
-
-        //Buscar el articulo, asignarle el nombre de la imagen y actualizarlo
+            //Buscar el articulo, asignarle el nombre de la imagen y actualizarlo
+        }       
         
         return res.status(404).send({
-            fichero: req.files
+            fichero: req.files,
+            split: file_split,
+            file_ext
         });
     }
 };//end controller 
