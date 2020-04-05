@@ -1,6 +1,9 @@
 'use strict'
 
 var validator = require('validator');//importamos el modulo del validador
+var fs = require('fs');//importamos libreria fs (file system), permitira eliminar archivos de
+//nuestro sistema de ficheros
+var path = require('path');//modulo de nodejs que permite sacar la ruta de un archivo
 var Article = require('../models/article');//importamos el modelo
 
 var controller = {
@@ -237,18 +240,23 @@ var controller = {
         //Comprobar la extension, solo imagenes, si no es valido borrar el fichero
         if (file_ext != 'png' && file_ext != 'jpg' && file_ext != 'jpeg' && file_ext != 'gif') {
             //borrar el archivo subido
+            fs.urlink(file_path, (err) => {
+                return res.status(200).send({
+                    status: 'error',
+                    message: 'La extension de la imagen no es valida'
+                });        
+            });
         }else{
             //Si todo es valido
 
             //Buscar el articulo, asignarle el nombre de la imagen y actualizarlo
-        }       
-        
-        return res.status(404).send({
-            fichero: req.files,
-            split: file_split,
-            file_ext
-        });
-    }
+            return res.status(404).send({
+                fichero: req.files,
+                split: file_split,
+                file_ext
+            });
+        }
+    },//end upload file
 };//end controller 
 
 //utilizamos el module export para poder utilizar este objeto fuera de este archivo y 
