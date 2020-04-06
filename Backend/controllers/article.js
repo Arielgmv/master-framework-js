@@ -240,16 +240,19 @@ var controller = {
         //Comprobar la extension, solo imagenes, si no es valido borrar el fichero
         if (file_ext != 'png' && file_ext != 'jpg' && file_ext != 'jpeg' && file_ext != 'gif') {
             //borrar el archivo subido
-            fs.urlink(file_path, (err) => {
+            fs.unlink(file_path, (err) => {
                 return res.status(200).send({
                     status: 'error',
                     message: 'La extension de la imagen no es valida'
                 });        
             });
         }else{
-            //Si todo es valido
+            //Si todo es valido, sacando id de la url
+            var articleId = req.params.id;
 
             //Buscar el articulo, asignarle el nombre de la imagen y actualizarlo
+            Article.findOneAndDelete({_id: articleId}, {image: file_name}, {new: true})
+            
             return res.status(404).send({
                 fichero: req.files,
                 split: file_split,
