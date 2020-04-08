@@ -251,15 +251,38 @@ var controller = {
             var articleId = req.params.id;
 
             //Buscar el articulo, asignarle el nombre de la imagen y actualizarlo
-            Article.findOneAndDelete({_id: articleId}, {image: file_name}, {new: true})
-            
-            return res.status(404).send({
-                fichero: req.files,
-                split: file_split,
-                file_ext
+            Article.findOneAndUpdate({_id: articleId}, {image: file_name}, {new: true}, (err, articleUpdated) => { //cambiamos el campo image, tercer parametro, new: true -> para que me devuelva el objeto actualizado, que no devuelva la versión anterior 
+                if (err || !articleUpdated) {
+                    return res.status(200).send({
+                        status: 'error',
+                        message: 'Error al guardar la imagen de artículo' 
+                    });
+                }
+                return res.status(200).send({
+                    status: 'success',
+                    article: articleUpdated    
+                });
             });
         }
     },//end upload file
+
+    //metodo que permita sacar la imagen del api o del backend
+    getImage: (req, res) =>{
+        var file = req.params.image;
+        var path_file = './uploads/articles/'+file;
+
+        fs.exists(path_file, (exists) => {
+            if (exits) {
+                
+            }else{
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'La imagen no existe'
+                });
+            }
+        });       
+    },
+
 };//end controller 
 
 //utilizamos el module export para poder utilizar este objeto fuera de este archivo y 
