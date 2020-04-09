@@ -267,13 +267,14 @@ var controller = {
     },//end upload file
 
     //metodo que permita sacar la imagen del api o del backend
-    getImage: (req, res) =>{
+    getImage: (req, res) => {
         var file = req.params.image;
-        var path_file = './uploads/articles/'+file;
+        var path_file = './upload/articles/'+file;
 
         fs.exists(path_file, (exists) => {
-            if (exits) {
-                
+            //console.log(exists);
+            if (exists) {
+                return res.sendFile(path.resolve(path_file));//sendFile existe dentro de express
             }else{
                 return res.status(404).send({
                     status: 'error',
@@ -282,6 +283,13 @@ var controller = {
             }
         });       
     },
+
+    search: (req, res) => {
+        return res.status(404).send({
+            status: 'error',
+            message: 'La imagen no existe'
+        });
+    }
 
 };//end controller 
 
