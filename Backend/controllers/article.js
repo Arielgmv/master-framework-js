@@ -284,11 +284,38 @@ var controller = {
         });       
     },
 
+    //metodo que permite buscar articulos en el API REST (buscador  nodejs)
     search: (req, res) => {
-        return res.status(404).send({
-            status: 'error',
-            message: 'La imagen no existe'
-        });
+        //Sacar el string a buscar
+        var searchString = req.params.search;
+        //Find or
+        Article.find({ "$or": [
+            {"title": {"$regex": searchString, "$options": "i"}}, //si el searchString está incluido dentro del título, entonces sacara los articulos
+            {"content": {"$regex": searchString, "$options": "i"}}
+            //*si el searchstring esta incluido dentro del title o del content, entonces voy a sacar los articulos que coincidan con eso
+        ]})
+        .sort([['date', 'descending']])
+        .exec((err, articles) => { //para que ejecute la query
+            //en caso de que llegue un error
+            if (err) {
+                return res.status(500).send({
+                    status: 'error',
+                    message: 'Error en la petición'
+                });
+            }
+            //en caso de que no lleguen articulos
+            if (!articles || articles.length <= 0) {
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'No hay artículos que coincidan con tu busqueda'
+                });
+            }
+            //si todo ok            
+            return res.status(200).send({
+                status: 'success',
+                articles
+            });
+        });        
     }
 
 };//end controller 
