@@ -13,6 +13,16 @@ app.use(bodyParser.urlencoded({extended:false}));//basicamente cargar el body-pa
 app.use(bodyParser.json());//convertimos toda peticion a json (objeto de js)
 
 //CORS (para permitir peticiones del frontend)
+//CORS es acceso cruzado entre dominios, permite llamadas HTTP, peticiones AJAX o llamadas asincronas desde el front end que tengamos en
+//otra IP diferente
+//middleware que se ejecuta antes de las rutas que tengamos
+app.use((req, res, next) => {  //next permite pasar del middleware a lo siguiente que haya que hacer
+    res.header('Access-Control-Allow-Origin', '*');//permitir peticiones Ajax
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');//permitir metodos HTTP
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 
 //Añadir prefijo a rutas / Cargar rutas
 //app.use('/',article_routes);//cargando rutas ya creadas dentro de express
